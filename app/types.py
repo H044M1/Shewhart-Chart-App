@@ -12,22 +12,8 @@ class AttributeDataType:
     subgroups_quantity: int
     subgroups_size: int
     parameters: Sequence[str]
-    additionalParameters: Sequence[str]
+    additional_parameters: Sequence[str]
     table: Sequence[AttributeTableElement]
-    
-class VariableTableElement(TypedDict):
-    number: int
-    subgroup: int
-    disabled: bool
-    
-@dataclass 
-class VariableDataType:
-    parameters_quantity: int
-    subgroups_quantity: int
-    subgroups_size: int
-    parameters: Sequence[str]
-    additionalParameters: Sequence[str]
-    table: Sequence[VariableTableElement]
 
 class SigmaDisplay(TypedDict):
     sigma1: bool
@@ -40,6 +26,7 @@ class ChartConfig:
     average_calculating: Literal['sample', 'grand', 'custom']
     sigma_calculating: Literal['calculate', 'custom']
     selected_parameter: str
+    ma_span: int = 0
     limits_constant: tuple[float, float] = (-3, 3)
     average_constant: float = 0
     sigma_constant: float = 0

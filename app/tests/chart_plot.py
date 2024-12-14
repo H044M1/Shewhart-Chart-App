@@ -1,21 +1,18 @@
 import matplotlib.pyplot as plt
-from ..charts.attribute.cusum_p import AttributeCusumP
-from ..types import AttributeDataType, ChartCusumConfig
+from ..charts.attribute.p import AttributeP
+from ..types import AttributeDataType, ChartConfig
 
 def create_plot():
-    config = ChartCusumConfig(
+    config = ChartConfig(
+        limits_type = "sigma",
         sigma_display = {
             "sigma1": False,
             "sigma2": False
         },
         average_calculating = 'sample',
-        sigma_calculating = 'custom',
-        sigma_constant = 0.03,
-        selected_parameter = 'defect',
-        alpha = 0.005,
-        betta = 0,
-        delta = 1
-        )
+        sigma_calculating = 'calculate',
+        selected_parameter = 'defect'
+    )
     
     data = AttributeDataType(
         parameters_quantity = 1,
@@ -33,9 +30,8 @@ def create_plot():
         ]
     )
     
-    chart = AttributeCusumP(config, data)
+    chart = AttributeP(config, data)
     
-    print(f'Corner:\n{chart.get_corner_parameters()}\n')
+    print(f'UCL:\n{chart.get_lcl_ucl()[1]}\n')
     print(f'Values:\n{chart.values_for_plot()}\n')
-    print(f'Avg: {chart.get_average()}')
-    print(f'Sigma: {chart.get_sigma()}')
+    print(f'LCL:\n{chart.get_lcl_ucl()[0]}\n')

@@ -16,7 +16,7 @@ class AttributeP(AttributeAbstract):
                 return (lcl, ucl)
             case "sigma":
                 avg = self.get_average()
-                lcl = [avg - self.config.limits_constant[0]*self.get_sigma(i) for i in range(len(self.data.table))]
+                lcl = [avg + self.config.limits_constant[0]*self.get_sigma(i) for i in range(len(self.data.table))]
                 ucl = [avg + self.config.limits_constant[1]*self.get_sigma(i)  for i in range(len(self.data.table))]
                 return (lcl, ucl)
         
