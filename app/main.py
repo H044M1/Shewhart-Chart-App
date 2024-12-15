@@ -11,7 +11,7 @@ CORS(app, support_credentials=True)
 @app.route('/process', methods=['POST', 'OPTIONS'])
 @cross_origin(origin='*')
 def process_request():
-    try:
+    #try:
         req = request.get_json()
         if not req:
             return jsonify({"error": "Invalid JSON input"}), 400
@@ -34,6 +34,7 @@ def process_request():
                     'lcl': chart.get_lcl_ucl()[0],
                     'cl': chart.get_cl(),
                     'ucl': chart.get_lcl_ucl()[1],
+                    'sigmas': chart.get_all_sigmas(),
                     'values': chart.values_for_plot()
                 }
             case 'cusum_p':
@@ -48,5 +49,5 @@ def process_request():
 
         return jsonify(result), 200
     
-    except Exception as e:
-        return jsonify({"error": str(e)}), 500
+    #except Exception as e:
+    #    return jsonify({"error": str(e)}), 500
