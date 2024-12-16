@@ -7,7 +7,6 @@ class AttributeCusumP(AttributeCusumAbstract):
     def __init__(self, config: ChartCusumConfig, data: AttributeDataType):
         self.config = config
         self.data = data
-        self.config.delta = self.config.delta*self.get_sigma()
     
     def get_average(self) -> float:
         match self.config.average_calculating:
@@ -21,10 +20,12 @@ class AttributeCusumP(AttributeCusumAbstract):
     def get_sigma(self) -> float:
         match self.config.sigma_calculating:
             case 'custom':
+                print(self.config)
                 return self.config.sigma_constant
             case 'calculate':
-                avg = self.get_average()
-                return (sum([(n[self.config.selected_parameter]/n['size'])**2 for n in self.data.table])/len(self.data.table) - avg**2)**0.5
+                average = self.get_average()
+                sigmas = [(average*(1-average)/self.data.table[i]['size'])**0.5 for i in range(len(self.data.table))]
+                return sum(sigmas[i]*self.data.table[i]['size'] for i in range(len(sigmas)))/sum([item['size'] for item in self.data.table])
     
     def values_for_plot(self) -> Sequence[float]:
         avg = self.get_average()
@@ -32,13 +33,13 @@ class AttributeCusumP(AttributeCusumAbstract):
     
     def get_corner_parameters(self) -> CornerParameters:
         summary_sigma = self.get_sigma()
-
-        delta = self.config.delta/summary_sigma
-        d = 2*(math.log(1 - self.config.betta) - math.log(self.config.alpha if self.config.alpha else 1e-10))/delta
+        
+        delta = self.config.delta*summary_sigma
+        d = 2*(math.log(1 - self.config.betta) - math.log(self.config.alpha if self.config.alpha else 1e-10))/self.config.delta
         return {
             'delta': delta,
             'd': d,
-            'tetta': math.atan(delta/4),
-            'h': d*self.config.delta/2,
-            'f': self.config.delta/2
+            'tetta': math.atan(self.config.delta/1.5),
+            'h': d*delta/2,
+            'f': delta/2
         }

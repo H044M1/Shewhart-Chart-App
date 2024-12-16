@@ -10,7 +10,7 @@ class AttributeP(AttributeAbstract):
         return (lcl, ucl)
     
     def get_grand_average(self) -> float:
-        return sum([n[self.config.selected_parameter] for n in self.data.table])/len([n.size for n in self.data.table])
+        return sum([n[self.config.selected_parameter] for n in self.data.table])/sum([n['size'] for n in self.data.table])
     
     def get_sample_average(self) -> float:
         return sum([n[self.config.selected_parameter]/n['size'] for n in self.data.table])/len(self.data.table)

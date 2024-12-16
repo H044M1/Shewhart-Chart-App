@@ -7,11 +7,11 @@ def parse_config(config: dict) -> ChartConfig|ChartCusumConfig:
             average_calculating = config['mean'].lower(),
             sigma_calculating = config['sigma'].lower(),
             selected_parameter = config['characteristic'],
-            average_constant = config['meanCustom'],
-            sigma_constant = config['sigmaCustom'],
-            alpha = config['alpha'],
-            betta = config['betta'],
-            delta = config['delta']
+            average_constant =  float(config['meanCustom']),
+            sigma_constant = float(config['sigmaCustom']),
+            alpha = float(config['alpha']),
+            betta = float(config['betta']),
+            delta = float(config['delta'])
         )
     else:
         return ChartConfig(
@@ -20,10 +20,10 @@ def parse_config(config: dict) -> ChartConfig|ChartCusumConfig:
             average_calculating = config['mean'].lower(),
             sigma_calculating = config['sigma'].lower(),
             selected_parameter = config['characteristic'],
-            ma_span = config['ma_span'],
-            limits_constant = config["limitsValue"],
-            average_constant = config['meanCustom'],
-            sigma_constant = config['sigmaCustom'],
+            ma_span = int(config['ma_span']),
+            limits_constant = [float(i) for i in config["limitsValue"]],
+            average_constant =  float(config['meanCustom']),
+            sigma_constant = float(config['sigmaCustom']),
         )
         
 def parse_data(data: dict) -> AttributeDataType:

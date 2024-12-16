@@ -37,6 +37,10 @@ class AttributeAbstract(abc.ABC):
     def get_all_sigmas(self) -> Sequence[float]:
         return [self.get_sigma(i) for i in range(len(self.data.table))]
     
+    def get_total_sigma(self) -> float:
+        sigmas = self.get_all_sigmas()
+        return sum(sigmas[i]*self.data.table[i]['size'] for i in range(len(sigmas)))/sum([item['size'] for item in self.data.table])
+    
     @abc.abstractmethod
     def get_sigma_lcl_ucl(self) -> tuple[Sequence[float], Sequence[float]]: pass
     

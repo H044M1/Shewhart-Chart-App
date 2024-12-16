@@ -35,13 +35,14 @@ def process_request():
                     'cl': chart.get_cl(),
                     'ucl': chart.get_lcl_ucl()[1],
                     'sigmas': chart.get_all_sigmas(),
+                    'total_sigma': chart.get_total_sigma(),
                     'values': chart.values_for_plot()
                 }
             case 'cusum_p':
                 chart = AttributeCusumP(parsed_config, parsed_data)
                 result = {
                     'type': 'cusum_p',
-                    'corner': chart.get_corner_parameters,
+                    'corner': chart.get_corner_parameters(),
                     'mean': chart.get_average(),
                     'sigma': chart.get_sigma(),
                     'values': chart.values_for_plot()
