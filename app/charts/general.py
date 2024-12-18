@@ -63,6 +63,7 @@ class AttributeAbstract(abc.ABC):
 class AttributeCusumAbstract(abc.ABC):
     def __init__(self, config: ChartCusumConfig, data: AttributeDataType):
         self.config = config
+        data.table = list(filter(lambda item: not item['disabled'], data.table))
         self.data = data
     
     @abc.abstractmethod
