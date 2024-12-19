@@ -21,7 +21,7 @@ def serve(path):
 @app.route('/process', methods=['POST', 'OPTIONS'])
 @cross_origin(origin='*')
 def process_request():
-    #try:
+    try:
         req = request.get_json()
         if not req:
             return jsonify({"error": "Invalid JSON input"}), 400
@@ -150,8 +150,32 @@ def process_request():
                     'total_sigma': chart.get_total_sigma(),
                     'values': chart.values_for_plot()
                 }
+            case 'np':
+                chart = AttributeNP(parsed_config, parsed_data)
+                result = {
+                    'type': 'np',
+                    'mean': chart.get_average(),
+                    'lcl': chart.get_lcl_ucl()[0],
+                    'cl': chart.get_cl(),
+                    'ucl': chart.get_lcl_ucl()[1],
+                    'sigmas': chart.get_all_sigmas(),
+                    'total_sigma': chart.get_total_sigma(),
+                    'values': chart.values_for_plot()
+                }
+            case 'standartized_np':
+                chart = AttributeStandartizedNP(parsed_config, parsed_data)
+                result = {
+                    'type': 'standartized_np',
+                    'mean': chart.get_average(),
+                    'lcl': chart.get_lcl_ucl()[0],
+                    'cl': chart.get_cl(),
+                    'ucl': chart.get_lcl_ucl()[1],
+                    'sigmas': chart.get_all_sigmas(),
+                    'total_sigma': chart.get_total_sigma(),
+                    'values': chart.values_for_plot()
+                }
 
         return jsonify(result), 200
     
-    #except Exception as e:
-    #    return jsonify({"error": str(e)}), 500
+    except Exception as e:
+       return jsonify({"error": str(e)}), 500

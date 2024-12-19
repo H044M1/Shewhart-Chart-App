@@ -6,5 +6,7 @@ from .ma_c import AttributeMovingAverageC
 from .standartized_p import AttributeStandartizedP
 from .standartized_c import AttributeStandartizedC
 from .standartized_u import AttributeStandartizedU
+from .standartized_np import AttributeStandartizedNP
 from .c import AttributeC
 from .u import AttributeU
+from .np import AttributeNP
